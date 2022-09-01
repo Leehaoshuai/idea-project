@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mybatis02</artifactId>
+    <artifactId>mybatis03</artifactId>
 
     <build>
         <resources>
@@ -31,6 +31,5 @@
             </resource>
         </resources>
     </build>
-
 
 </project>
