@@ -16,6 +16,8 @@
         <setting name="logImpl" value="STDOUT_LOGGING"/>
         <!--log4j 日志-->
 <!--        <setting name="logImpl" value="LOG4J"/>-->
+        <!--显示的开启全局缓存-->
+        <setting name="cacheEnabled" value="true"/>
     </settings>
 
     <!--可以给实体类取别名-->
@@ -42,7 +44,8 @@
     <!--绑定接口-->
     <mappers>
         <mapper class="com.ming.mapper.BlogMapper"></mapper>
-<!--        <mapper class="com.ming.mapper.StudentMapper"></mapper>-->
+        <mapper class="com.ming.mapper.UserMapper"></mapper>
+        <!--        <mapper class="com.ming.mapper.StudentMapper"></mapper>-->
         <!--通配-->
         <!--<mapper resource="com/ming/mapper/*"></mapper>-->
     </mappers>

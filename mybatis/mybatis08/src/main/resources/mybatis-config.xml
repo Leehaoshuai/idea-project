@@ -42,7 +42,7 @@
     <!--绑定接口-->
     <mappers>
         <mapper class="com.ming.mapper.BlogMapper"></mapper>
-<!--        <mapper class="com.ming.mapper.StudentMapper"></mapper>-->
+        <!--        <mapper class="com.ming.mapper.StudentMapper"></mapper>-->
         <!--通配-->
         <!--<mapper resource="com/ming/mapper/*"></mapper>-->
     </mappers>
