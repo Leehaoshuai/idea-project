@@ -10,20 +10,8 @@
         http://www.springframework.org/schema/aop
        https://www.springframework.org/schema/aop/spring-aop.xsd">
 
+    <!--扫描指定的包，这个包下的注解就会生效-->
+    <context:component-scan base-package="com.ming"/>
     <!--开启注解支持-->
     <context:annotation-config/>
-
-<!--    byName 会自动在容器上下文中和 (自己对象set方法) 后面的值对应的beanid 缺点：name 默认
-    byType 会自动在容器上下文中和 (自己对象属性相同）的bean
-    Autowired 先通过byType 自动注入-->
-
-    <bean id="cat122" class="com.ming.pojo.Cat"></bean>
-    <bean id="cat222" class="com.ming.pojo.Cat"></bean>
-    <bean id="cat322" class="com.ming.pojo.Cat"></bean>
-    <bean id="dog122" class="com.ming.pojo.Dog"></bean>
-    <bean id="dog222" class="com.ming.pojo.Dog"></bean>
-    <bean id="dog322" class="com.ming.pojo.Dog"></bean>
-
-    <bean id="people" class="com.ming.pojo.People">
-    </bean>
 </beans>
