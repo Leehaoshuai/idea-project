@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--p 命名空间注入 可以直接注入属性的值 对应setter注入-->
+    <bean id="user" class="com.ming.pojo.User" p:name="李灏">
+        <constructor-arg name="name" value="李灏"/>
+    </bean>
+
+    <!--c 命名空间注入 对应构造器注入 constructor-org-->
+    <bean id="user2" class="com.ming.pojo.User" c:name="李灏" scope="prototype">
+        <property name="name" value="李灏"/>
+    </bean>
+</beans>
