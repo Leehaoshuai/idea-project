@@ -145,4 +145,113 @@ Proxy：代理 InvocationHandler： 调用处理程序
 ```
 
 AOP 通过动态代理实现
+```xml
 
+    <!--注册bean-->
+    <bean id="userService" class="com.ming.service.UserServiceImpl"/>
+    <bean id="log" class="com.ming.log.Log"/>
+    <bean id="afterLog" class="com.ming.log.AfterLog"/>
+
+    <!-- 方式三-->
+    <bean id="annotationpointCut" class="com.ming.diy.AnnotationPointCut"/>
+    <!--开启注解支持-->
+    <aop:aspectj-autoproxy/>
+
+    方式一：使用原生Spring API接口实现
+
+    配置aop 需要导入aop的约束
+    <aop:config>
+        <!--切入点 需要在哪个地方执行  expression="execution(要执行的位置 )" 
+        <aop:pointcut id="pointcut" expression="execution(* com.ming.service.UserServiceImpl.*(..))"/>
+
+        执行环绕增强
+        <aop:advisor advice-ref="log" pointcut-ref="pointcut"/>
+        <aop:advisor advice-ref="afterLog" pointcut-ref="pointcut"/>
+    </aop:config>-->
+
+    方式二：自定义类 主要是切面定义
+
+    <bean id="diy" class="com.ming.diy.DiyPointCut"/>
+    <aop:config>
+        <!--自定义切面，ref 要引用的类
+        <aop:aspect ref="diy">
+            切入点
+            <aop:pointcut id="point" expression="execution(* com.ming.service.UserServiceImpl.*(..))"/>
+            通知
+            <aop:before method="before" pointcut-ref="point"/>
+            <aop:after method="after" pointcut-ref="point"/>
+        </aop:aspect>-->
+
+    </aop:config>
+```
+
+## applicationContext.xml 常见配置
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+       https://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--扫描指定的包，这个包下的注解就会生效-->
+    <context:component-scan base-package="com.ming"/>
+
+    <!--开启注解支持-->
+    <context:annotation-config/>
+    <!--DataSource:
+        使用Spring的数据源替换Mybatis的配置  c3p0  dbcp druid
+        这里我们使用Spring提供的JDBC： org.springframework.jdbc.datasource
+    -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/mybatis?useSSL=true&amp;useUnicode=true&amp;characterEncodingUTF-8"/>
+        <property name="username" value="root"/>
+        <property name="password" value="123456"/>
+    </bean>
+
+    <!--sqlSessionFactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--绑定Mybatis 配置文件-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="mapperLocations" value="classpath:com/ming/mapper/UserMapper.xml"/>
+    </bean>
+
+    <!--SqlSessionTemplate 就是我们使用的sqlSession-->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <!--只能使用构造器注入sqlSessionFactory，因为它没有set方法-->
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+
+    <!--配置声明式事务-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <!--结合AOP实现事务的植入-->
+    <!--配置事务通知-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <!--给哪些方法配置事务-->
+        <!--配置事务的传播特性 propagation:传播-->
+        <tx:attributes>
+            <tx:method name="add" propagation="REQUIRED"/>
+            <tx:method name="delete" propagation="REQUIRED"/>
+            <tx:method name="update" propagation="REQUIRED"/>
+            <tx:method name="query" read-only="true"/>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+    
+    <!--配置事务的注入-->
+    <aop:config>
+        <aop:pointcut id="txPointCut" expression="execution(* com.ming.mapper.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
+    </aop:config>
+
+</beans>
+```
