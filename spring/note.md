@@ -90,6 +90,48 @@ JavaConfig
 4.客户端访问代理角色
 
 动态代理 和静态代理角色一样
+```java
+package com.ming.demo03;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
+// 等会我们会用这个类生成自动代理类
+public class ProxyInvocationHandler implements InvocationHandler {
+
+    // 被代理的接口
+    private Rent rent;
+
+    public void setRent(Rent rent) {
+        this.rent = rent;
+    }
+
+    // 生成得到代理类
+    public Object getProxy(){
+        return Proxy.newProxyInstance(this.getClass().getClassLoader(), rent.getClass().getInterfaces(),this);
+    }
+
+    // 处理代理实例并返回结果
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+
+        // 动态代理的本质就是使用反射机制实现
+        seeHouse();
+        Object result = method.invoke(rent, args);
+        fare();
+        return result;
+    }
+
+    public void seeHouse(){
+        System.out.println("中介带看房子");
+    }
+
+    public void fare(){
+        System.out.println("中介收中介费");
+    }
+}
+
+```
 ```
 动态代理 和静态代理角色一样
 动态代理的代理类是动态生成的，不是我们直接写好的
@@ -100,7 +142,6 @@ JavaConfig
 
 需要了解两个类
 Proxy：代理 InvocationHandler： 调用处理程序
-
 ```
 
 AOP 通过动态代理实现
