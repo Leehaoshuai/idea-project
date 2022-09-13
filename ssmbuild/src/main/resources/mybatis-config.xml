@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <!--标准的日志生成-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <!--log4j 日志-->
+        <!--        <setting name="logImpl" value="LOG4J"/>-->
+        <!--显示的开启全局缓存-->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+
+    <!--配置数据源 交给Spring去做-->
+
+    <!--配置别名-->
+    <typeAliases>
+        <package name="com.ming.pojo"/>
+    </typeAliases>
+
+
+    <!--映射mappers-->
+    <mappers>
+        <!--两个名字不一样-->
+        <!--<mapper resource="com/ming/dao/BookMapper.xml"/>-->
+        <!--两个名字一样-->
+        <mapper class="com.ming.dao.BookMapper"/>
+    </mappers>
+
+</configuration>

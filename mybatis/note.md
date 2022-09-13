@@ -107,6 +107,16 @@
 
     </environments>
 
+    <settings>
+        <!--标准的日志生成-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <!--log4j 日志-->
+<!--        <setting name="logImpl" value="LOG4J"/>-->
+        <!--显示的开启全局缓存-->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+
+
     <!--每一个Mapper.xml 都需要在Mybatis的核心配置文件中注册-->
     <mappers>
         <mapper resource="com/ming/mapper/UserMapper.xml"/>
