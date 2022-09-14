@@ -14,5 +14,9 @@
 
 <h1>首页</h1>
 
+<span>${username}</span>
+<p>
+    <a href="${pageContext.request.contextPath}/user/goOut"></a>
+</p>
 </body>
 </html>

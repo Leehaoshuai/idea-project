@@ -11,6 +11,13 @@
     <title>$Title$</title>
   </head>
   <body>
-  $END$
+  <h1>
+    <a href="${pageContext.request.contextPath}/user/goLogin"> 登录页面</a>
+  </h1>
+
+  <h1>
+    <a href="${pageContext.request.contextPath}/main"> 登录页面</a>
+  </h1>
+
   </body>
 </html>
